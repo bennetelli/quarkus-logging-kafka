@@ -1,0 +1,9 @@
+---
+name: "Logging Kafka"
+metadata:
+  keywords:
+  - "logging"
+  - "Kafka"
+  categories:
+  - "experimental"
+  status: "experimental"
