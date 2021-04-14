@@ -40,11 +40,10 @@ public class KafkaHandler extends Handler {
 
     private String appLabel;
 
-    @Inject
-    @Channel("delivery")
-    Emitter<String> emitter;
+    private final Emitter<String> emitter;
 
-    public KafkaHandler() {
+    public KafkaHandler(Emitter<String> emitter) {
+        this.emitter = emitter;
 //        EmitterConfiguration emitterConfiguration = new EmitterConfiguration();
 //        this.emitter = new EmitterImpl<>(emitterConfiguration, 128);
 //
