@@ -41,7 +41,7 @@ public class KafkaHandler extends Handler {
 //        EmitterConfiguration emitterConfiguration = new EmitterConfiguration();
 //        this.emitter = new EmitterImpl<>(emitterConfiguration, 128);
 //
-//        emitter.send("geht eh wieder nicht...");
+//        emitter.send("is it workng?");
     }
 
     @Override
@@ -138,44 +138,4 @@ public class KafkaHandler extends Handler {
             this.appLabel = label;
         }
     }
-
-//    private class Publisher implements Runnable {
-//
-//        List<String> events;
-//
-//        @Inject
-//        @Channel("delivery")
-//        Emitter<String> emitter;
-//
-//        public Publisher() {
-//            EmitterConfiguration emitterConfiguration = new EmitterConfiguration();
-//            this.emitter = new EmitterImpl<>(emitterConfiguration, 128);
-//        }
-//
-//        @Override
-//        public void run() {
-//            while (true) {
-//                synchronized (eventBuffer) {
-//                    events = new ArrayList<>(eventBuffer);
-//                    eventBuffer.clear();
-//                }
-//
-//                if (events.size() > 0 ) {
-//                    String message = events.get(0);
-//                    emitter.send(message);
-//                    events.remove(0);
-//                }
-//
-//                if (done) {
-//                    return;
-//                }
-//
-//                try {
-//                    Thread.sleep(5000);
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();  // TODO: Customise this generated block
-//                }
-//            }
-//        }
-//    }
 }
