@@ -17,27 +17,15 @@
             <artifactId>quarkus-core-deployment</artifactId>
         </dependency>
         <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-smallrye-reactive-messaging-kafka-deployment</artifactId>
+        </dependency>
+        <dependency>
             <groupId>bennetelli</groupId>
             <artifactId>quarkus-logging-kafka</artifactId>
             <version>0.0.7-SNAPSHOT</version>
         </dependency>
 
-        <!-- test dependencies -->
-        <dependency>
-            <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-junit5-internal</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-junit5</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-arc-deployment</artifactId>
-            <scope>test</scope>
-        </dependency>
     </dependencies>
 
     <build>

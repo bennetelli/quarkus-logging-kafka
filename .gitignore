@@ -26,3 +26,9 @@ hs_err_pid*
 /target/*
 /runtime/target/
 /deployment/target/
+
+# Eclipse
+.project
+.classpath
+.settings/
+bin/
