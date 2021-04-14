@@ -5,11 +5,10 @@
         <groupId>bennetelli</groupId>
         <artifactId>quarkus-logging-kafka-parent</artifactId>
         <version>0.0.7-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>quarkus-logging-kafka-deployment</artifactId>
-    <name>Quarkus - Logging - Kafka - Deployment</name>
+    <name>Quarkus Logging Kafka Extension - Deployment</name>
 
     <dependencies>
         <dependency>
@@ -25,7 +24,6 @@
             <artifactId>quarkus-logging-kafka</artifactId>
             <version>0.0.7-SNAPSHOT</version>
         </dependency>
-
     </dependencies>
 
     <build>
@@ -40,12 +38,8 @@
                             <version>${quarkus.version}</version>
                         </path>
                     </annotationProcessorPaths>
-                    <source>11</source>
-                    <target>11</target>
-                    <release>11</release>
                 </configuration>
             </plugin>
         </plugins>
     </build>
-
 </project>

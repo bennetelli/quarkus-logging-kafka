@@ -5,12 +5,10 @@
         <groupId>bennetelli</groupId>
         <artifactId>quarkus-logging-kafka-parent</artifactId>
         <version>0.0.7-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>quarkus-logging-kafka</artifactId>
-    <name>Quarkus - Logging - Kafka - Runtime</name>
-    <description>Use Loki</description>
+    <name>Quarkus Logging Kafka Extension - Runtime</name>
 
     <dependencies>
         <dependency>
@@ -31,13 +29,12 @@
                 <version>${quarkus.version}</version>
                 <executions>
                     <execution>
+                        <phase>compile</phase>
                         <goals>
                             <goal>extension-descriptor</goal>
                         </goals>
-                        <phase>compile</phase>
                         <configuration>
-                            <deployment>${project.groupId}:${project.artifactId}-deployment:${project.version}
-                            </deployment>
+                            <deployment>${project.groupId}:${project.artifactId}-deployment:${project.version}</deployment>
                         </configuration>
                     </execution>
                 </executions>
@@ -52,9 +49,6 @@
                             <version>${quarkus.version}</version>
                         </path>
                     </annotationProcessorPaths>
-                    <source>11</source>
-                    <target>11</target>
-                    <release>11</release>
                 </configuration>
             </plugin>
         </plugins>
