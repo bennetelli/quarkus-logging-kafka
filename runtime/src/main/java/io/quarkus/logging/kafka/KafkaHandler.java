@@ -16,15 +16,10 @@
  */
 package io.quarkus.logging.kafka;
 
-import io.smallrye.mutiny.Multi;
 import org.eclipse.microprofile.reactive.messaging.Emitter;
-import org.eclipse.microprofile.reactive.messaging.Outgoing;
-import org.eclipse.microprofile.reactive.streams.operators.PublisherBuilder;
-import org.eclipse.microprofile.reactive.streams.operators.ReactiveStreams;
 import org.jboss.logmanager.ExtLogRecord;
 
 import java.text.MessageFormat;
-import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Handler;
@@ -40,19 +35,6 @@ public class KafkaHandler extends Handler {
 
     public KafkaHandler(Emitter<String> emitter) {
         this.emitter = emitter;
-    }
-
-    @Outgoing("delivery")
-    public PublisherBuilder<String> source() {
-        return ReactiveStreams.of("hello", "with", "SmallRye", "reactive", "message");
-    }
-
-    @Outgoing("delivery")
-    public Multi<String> generate() {
-        System.out.println("GENERATE");
-        return Multi.createFrom().ticks().every(Duration.ofSeconds(5))
-                .onOverflow().drop()
-                .map(tick -> "some message");
     }
 
     @Override
@@ -101,12 +83,7 @@ public class KafkaHandler extends Handler {
         }
 
         String body = assemblePayload(msg, tags, record.getThrown());
-
-        System.out.println("BENNETS LOG: " + body);
-
-//        generate();
-        source();
-        emitter.send("test test test kafka camel hallo markus");
+        emitter.send(body);
     }
 
     @Override
