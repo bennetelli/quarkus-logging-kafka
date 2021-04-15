@@ -35,6 +35,8 @@ public class KafkaHandler extends Handler {
     private String appLabel;
     private String brokerUrl;
     private String topicName;
+    private String keySerializer;
+    private String valueSerializer;
 
     private final Map<String, String> config;
 
@@ -101,6 +103,16 @@ public class KafkaHandler extends Handler {
         config.remove("bootstrap.servers");
         config.put("bootstrap.servers", brokerUrl);
 
+        if (keySerializer != null && !keySerializer.isEmpty()) {
+            config.remove("key.serializer");
+            config.put("key.serializer", keySerializer);
+        }
+
+        if (valueSerializer != null && !valueSerializer.isEmpty()) {
+            config.remove("value.serializer");
+            config.put("value.serializer", valueSerializer);
+        }
+
         KafkaProducerRecord<String, String> records = KafkaProducerRecord.create(topicName, body);
         producer.write(records);
     }
@@ -157,6 +169,18 @@ public class KafkaHandler extends Handler {
     void setTopicName(String topicName) {
         if (topicName != null) {
             this.topicName = topicName;
+        }
+    }
+
+    void setKeySerializer(String keySerializer) {
+        if (keySerializer != null) {
+            this.keySerializer = keySerializer;
+        }
+    }
+
+    void setValueSerializer(String valueSerializer) {
+        if (valueSerializer != null) {
+            this.valueSerializer = valueSerializer;
         }
     }
 }

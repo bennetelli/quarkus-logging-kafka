@@ -39,10 +39,22 @@ public class KafkaConfig {
     String brokerUrl;
 
     /**
-     *
+     * The name of the Kafka topic
      */
     @ConfigItem
     String topicName;
+
+    /**
+     *
+     */
+    @ConfigItem
+    Optional<String> keySerializer;
+
+    /**
+     *
+     */
+    @ConfigItem
+    Optional<String> valueSerializer;
 
     /**
      * App label

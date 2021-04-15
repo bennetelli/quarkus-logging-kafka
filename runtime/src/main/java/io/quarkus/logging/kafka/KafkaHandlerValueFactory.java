@@ -39,6 +39,8 @@ public class KafkaHandlerValueFactory {
         handler.setLevel(config.level);
         handler.setBrokerUrl(config.brokerUrl);
         handler.setTopicName(config.topicName);
+        handler.setKeySerializer(config.keySerializer.orElse(""));
+        handler.setValueSerializer(config.valueSerializer.orElse(""));
         handler.setAppLabel(config.appLabel.orElse(""));
 
         return new RuntimeValue<>(Optional.of(handler));
