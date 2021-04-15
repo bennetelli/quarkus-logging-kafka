@@ -16,12 +16,12 @@
  */
 package io.quarkus.logging.kafka;
 
-import io.quarkus.runtime.RuntimeValue;
-import io.quarkus.runtime.annotations.Recorder;
-
 import java.util.Optional;
 import java.util.logging.Handler;
 import java.util.logging.Logger;
+
+import io.quarkus.runtime.RuntimeValue;
+import io.quarkus.runtime.annotations.Recorder;
 
 @Recorder
 public class KafkaHandlerValueFactory {

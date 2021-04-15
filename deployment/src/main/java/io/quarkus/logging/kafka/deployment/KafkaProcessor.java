@@ -33,7 +33,8 @@ class KafkaProcessor {
 
     @BuildStep
     @Record(ExecutionTime.RUNTIME_INIT)
-    LogHandlerBuildItem addKafkaLogHandler(final KafkaConfig kafkaConfig, final KafkaHandlerValueFactory kafkaHandlerValueFactory) {
+    LogHandlerBuildItem addKafkaLogHandler(final KafkaConfig kafkaConfig,
+            final KafkaHandlerValueFactory kafkaHandlerValueFactory) {
         return new LogHandlerBuildItem(kafkaHandlerValueFactory.create(kafkaConfig));
     }
 }

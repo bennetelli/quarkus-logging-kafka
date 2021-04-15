@@ -16,10 +16,7 @@
  */
 package io.quarkus.logging.kafka;
 
-import io.vertx.core.Vertx;
-import io.vertx.kafka.client.producer.KafkaProducer;
-import io.vertx.kafka.client.producer.KafkaProducerRecord;
-import org.jboss.logmanager.ExtLogRecord;
+import static java.util.stream.Collectors.joining;
 
 import java.text.MessageFormat;
 import java.util.HashMap;
@@ -27,7 +24,11 @@ import java.util.Map;
 import java.util.logging.Handler;
 import java.util.logging.LogRecord;
 
-import static java.util.stream.Collectors.joining;
+import org.jboss.logmanager.ExtLogRecord;
+
+import io.vertx.core.Vertx;
+import io.vertx.kafka.client.producer.KafkaProducer;
+import io.vertx.kafka.client.producer.KafkaProducerRecord;
 
 public class KafkaHandler extends Handler {
 

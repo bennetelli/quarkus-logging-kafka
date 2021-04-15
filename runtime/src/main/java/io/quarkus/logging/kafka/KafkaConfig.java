@@ -33,19 +33,6 @@ public class KafkaConfig {
     boolean enable;
 
     /**
-     * CW log group
-     */
-    @ConfigItem
-    public String logGroup;
-
-    /**
-     * CW log stream
-     *
-     */
-    @ConfigItem
-    public String logStreamName;
-
-    /**
      * App label
      *
      * If present, a label of app=\<appLabel> is supplied

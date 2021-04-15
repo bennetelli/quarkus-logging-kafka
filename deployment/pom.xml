@@ -16,7 +16,11 @@
             <artifactId>quarkus-core-deployment</artifactId>
         </dependency>
         <dependency>
-            <groupId>bennetelli</groupId>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-smallrye-reactive-messaging-kafka-deployment</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.quarkiverse.kafka</groupId>
             <artifactId>quarkus-logging-kafka</artifactId>
             <version>0.0.7-SNAPSHOT</version>
         </dependency>
