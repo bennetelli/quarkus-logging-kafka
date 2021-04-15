@@ -76,16 +76,14 @@ public class KafkaHandler extends Handler {
         tags.put("level", record.getLevel().getName());
 
         String msg;
-        if (record.getParameters() != null && record.getParameters().length > 0) {
-            switch (((ExtLogRecord) record).getFormatStyle()) {
-                case PRINTF:
-                    msg = String.format(record.getMessage(), record.getParameters());
-                    break;
-                case MESSAGE_FORMAT:
-                    msg = MessageFormat.format(record.getMessage(), record.getParameters());
-                    break;
-                default: // == NO_FORMAT
-                    msg = record.getMessage();
+        if (record.getParameters() != null && record.getParameters().length > 0 && record instanceof ExtLogRecord) {
+            ExtLogRecord.FormatStyle formatStyle = ((ExtLogRecord) record).getFormatStyle();// == NO_FORMAT
+            if (formatStyle == ExtLogRecord.FormatStyle.PRINTF) {
+                msg = String.format(record.getMessage(), record.getParameters());
+            } else if (formatStyle == ExtLogRecord.FormatStyle.MESSAGE_FORMAT) {
+                msg = MessageFormat.format(record.getMessage(), record.getParameters());
+            } else {
+                msg = record.getMessage();
             }
         } else {
             msg = record.getMessage();
@@ -161,26 +159,18 @@ public class KafkaHandler extends Handler {
     }
 
     void setBrokerUrl(String brokerUrl) {
-        if (brokerUrl != null) {
-            this.brokerUrl = brokerUrl;
-        }
+        this.brokerUrl = brokerUrl;
     }
 
     void setTopicName(String topicName) {
-        if (topicName != null) {
-            this.topicName = topicName;
-        }
+        this.topicName = topicName;
     }
 
     void setKeySerializer(String keySerializer) {
-        if (keySerializer != null) {
-            this.keySerializer = keySerializer;
-        }
+        this.keySerializer = keySerializer;
     }
 
     void setValueSerializer(String valueSerializer) {
-        if (valueSerializer != null) {
-            this.valueSerializer = valueSerializer;
-        }
+        this.valueSerializer = valueSerializer;
     }
 }
