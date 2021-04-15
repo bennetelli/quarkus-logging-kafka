@@ -28,11 +28,11 @@ The following is a list of properties. All are required.
 .application.properties
 ----
 quarkus.log.kafka=true                            # <1>
-quarkus.log.kafka.access-key-id=<your key>        # <2>
-quarkus.log.kafka.level=INFO                      # <3>
-quarkus.log.kafka.bootstrap.servers=<your url>    # <4>
+quarkus.log.kafka.level=INFO                      # <2>
+quarkus.log.kafka.broker-url=<kafka broker url>   # <3>
+quarkus.log.kafka.topic-name=kafka-logging-topic  # <4>
 ----
 <1> Set to true to enable logging to Kafka
-<2> The Kafka topic name to log to
-<3> The minimum log message level that is forwarded
-<4> The url of the Kafka broker
+<2> The minimum log message level that is forwarded
+<3> The url of the Kafka broker
+<4> The Kafka topic name to log to

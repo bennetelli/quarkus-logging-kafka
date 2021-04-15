@@ -33,11 +33,15 @@ import io.vertx.kafka.client.producer.KafkaProducerRecord;
 public class KafkaHandler extends Handler {
 
     private String appLabel;
+    private String brokerUrl;
+    private String topicName;
+
+    private final Map<String, String> config;
 
     private final KafkaProducer<String, String> producer;
 
     public KafkaHandler() {
-        Map<String, String> config = new HashMap<>();
+        this.config = new HashMap<>();
         config.put("bootstrap.servers", "localhost:9092");
         config.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
         config.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
@@ -94,7 +98,10 @@ public class KafkaHandler extends Handler {
 
         String body = assemblePayload(msg, tags, record.getThrown());
 
-        KafkaProducerRecord<String, String> records = KafkaProducerRecord.create("smallrye-kafka-topics", body);
+        config.remove("bootstrap.servers");
+        config.put("bootstrap.servers", brokerUrl);
+
+        KafkaProducerRecord<String, String> records = KafkaProducerRecord.create(topicName, body);
         producer.write(records);
     }
 
@@ -138,6 +145,18 @@ public class KafkaHandler extends Handler {
     void setAppLabel(String label) {
         if (label != null) {
             this.appLabel = label;
+        }
+    }
+
+    void setBrokerUrl(String brokerUrl) {
+        if (brokerUrl != null) {
+            this.brokerUrl = brokerUrl;
+        }
+    }
+
+    void setTopicName(String topicName) {
+        if (topicName != null) {
+            this.topicName = topicName;
         }
     }
 }

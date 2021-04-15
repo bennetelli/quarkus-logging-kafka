@@ -37,6 +37,8 @@ public class KafkaHandlerValueFactory {
 
         KafkaHandler handler = new KafkaHandler();
         handler.setLevel(config.level);
+        handler.setBrokerUrl(config.brokerUrl);
+        handler.setTopicName(config.topicName);
         handler.setAppLabel(config.appLabel.orElse(""));
 
         return new RuntimeValue<>(Optional.of(handler));

@@ -33,6 +33,18 @@ public class KafkaConfig {
     boolean enable;
 
     /**
+     * The Kafka Broker URL
+     */
+    @ConfigItem
+    String brokerUrl;
+
+    /**
+     *
+     */
+    @ConfigItem
+    String topicName;
+
+    /**
      * App label
      *
      * If present, a label of app=\<appLabel> is supplied
