@@ -47,6 +47,7 @@ public class KafkaHandler extends Handler {
         config.put("bootstrap.servers", "localhost:9092");
         config.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
         config.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
+
         config.put("acks", "1");
 
         Vertx vertx = Vertx.vertx();
@@ -98,16 +99,13 @@ public class KafkaHandler extends Handler {
 
         String body = assemblePayload(msg, tags, record.getThrown());
 
-        config.remove("bootstrap.servers");
         config.put("bootstrap.servers", brokerUrl);
 
         if (keySerializer != null && !keySerializer.isEmpty()) {
-            config.remove("key.serializer");
             config.put("key.serializer", keySerializer);
         }
 
         if (valueSerializer != null && !valueSerializer.isEmpty()) {
-            config.remove("value.serializer");
             config.put("value.serializer", valueSerializer);
         }
 

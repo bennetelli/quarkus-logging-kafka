@@ -28,7 +28,7 @@ class KafkaProcessor {
 
     @BuildStep
     FeatureBuildItem feature() {
-        return new FeatureBuildItem("log-kafka");
+        return new FeatureBuildItem("logging-kafka");
     }
 
     @BuildStep

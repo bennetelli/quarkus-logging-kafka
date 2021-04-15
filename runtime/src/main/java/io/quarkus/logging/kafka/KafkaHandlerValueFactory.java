@@ -30,7 +30,7 @@ public class KafkaHandlerValueFactory {
 
     public RuntimeValue<Optional<Handler>> create(final KafkaConfig config) {
         if (!config.enable) {
-            log.fine("--- LogKafka is not enabled ---");
+            log.fine("--- logging-kafka is not enabled ---");
 
             return new RuntimeValue<>(Optional.empty());
         }
