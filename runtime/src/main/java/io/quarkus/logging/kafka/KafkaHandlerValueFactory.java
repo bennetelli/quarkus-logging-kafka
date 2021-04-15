@@ -16,20 +16,12 @@
  */
 package io.quarkus.logging.kafka;
 
+import io.quarkus.runtime.RuntimeValue;
+import io.quarkus.runtime.annotations.Recorder;
+
 import java.util.Optional;
 import java.util.logging.Handler;
 import java.util.logging.Logger;
-
-import javax.enterprise.util.AnnotationLiteral;
-import javax.enterprise.util.TypeLiteral;
-
-import org.eclipse.microprofile.reactive.messaging.Channel;
-import org.eclipse.microprofile.reactive.messaging.Emitter;
-
-import io.quarkus.arc.Arc;
-import io.quarkus.arc.InstanceHandle;
-import io.quarkus.runtime.RuntimeValue;
-import io.quarkus.runtime.annotations.Recorder;
 
 @Recorder
 public class KafkaHandlerValueFactory {
@@ -43,30 +35,10 @@ public class KafkaHandlerValueFactory {
             return new RuntimeValue<>(Optional.empty());
         }
 
-        InstanceHandle<Emitter<String>> emitter = Arc.container().instance(
-                new TypeLiteral<Emitter<String>>() {
-                },
-                new ChannelLiteral("delivery"));
-
-        KafkaHandler handler = new KafkaHandler(emitter.get());
+        KafkaHandler handler = new KafkaHandler();
         handler.setLevel(config.level);
         handler.setAppLabel(config.appLabel.orElse(""));
 
         return new RuntimeValue<>(Optional.of(handler));
-    }
-
-    static class ChannelLiteral extends AnnotationLiteral<org.eclipse.microprofile.reactive.messaging.Channel>
-            implements Channel {
-
-        private String value;
-
-        public ChannelLiteral(String value) {
-            this.value = value;
-        }
-
-        @Override
-        public String value() {
-            return value;
-        }
     }
 }

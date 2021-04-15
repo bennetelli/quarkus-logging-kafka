@@ -16,7 +16,9 @@
  */
 package io.quarkus.logging.kafka;
 
-import org.eclipse.microprofile.reactive.messaging.Emitter;
+import io.vertx.core.Vertx;
+import io.vertx.kafka.client.producer.KafkaProducer;
+import io.vertx.kafka.client.producer.KafkaProducerRecord;
 import org.jboss.logmanager.ExtLogRecord;
 
 import java.text.MessageFormat;
@@ -31,10 +33,17 @@ public class KafkaHandler extends Handler {
 
     private String appLabel;
 
-    private final Emitter<String> emitter;
+    private final KafkaProducer<String, String> producer;
 
-    public KafkaHandler(Emitter<String> emitter) {
-        this.emitter = emitter;
+    public KafkaHandler() {
+        Map<String, String> config = new HashMap<>();
+        config.put("bootstrap.servers", "localhost:9092");
+        config.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
+        config.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
+        config.put("acks", "1");
+
+        Vertx vertx = Vertx.vertx();
+        this.producer = KafkaProducer.create(vertx, config);
     }
 
     @Override
@@ -83,7 +92,9 @@ public class KafkaHandler extends Handler {
         }
 
         String body = assemblePayload(msg, tags, record.getThrown());
-        emitter.send(body);
+
+        KafkaProducerRecord<String, String> records = KafkaProducerRecord.create("smallrye-kafka-topics", body);
+        producer.write(records);
     }
 
     @Override
