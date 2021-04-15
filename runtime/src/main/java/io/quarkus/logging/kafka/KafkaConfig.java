@@ -27,7 +27,7 @@ import io.quarkus.runtime.annotations.ConfigRoot;
 public class KafkaConfig {
 
     /**
-     * Determine whether to enable the Loki logging extension.
+     * Determine whether to enable the Kafka logging extension.
      */
     @ConfigItem(name = ConfigItem.PARENT)
     boolean enable;

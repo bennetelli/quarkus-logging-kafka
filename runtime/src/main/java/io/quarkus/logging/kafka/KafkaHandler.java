@@ -97,8 +97,6 @@ public class KafkaHandler extends Handler {
             }
         }
 
-        String body = assemblePayload(msg, tags, record.getThrown());
-
         config.put("bootstrap.servers", brokerUrl);
 
         if (keySerializer != null && !keySerializer.isEmpty()) {
@@ -109,6 +107,7 @@ public class KafkaHandler extends Handler {
             config.put("value.serializer", valueSerializer);
         }
 
+        String body = assemblePayload(msg, tags, record.getThrown());
         KafkaProducerRecord<String, String> records = KafkaProducerRecord.create(topicName, body);
         producer.write(records);
     }
