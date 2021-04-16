@@ -33,8 +33,8 @@ import io.vertx.kafka.client.producer.KafkaProducerRecord;
 public class KafkaHandler extends Handler {
 
     private static final String DEFAULT_STRING_SERIALIZER = "org.apache.kafka.common.serialization.StringSerializer";
-    public static final String DEFAULT_BROKER_URL = "localhost:9092";
-    public static final String DEFAULT_ACKS = "1";
+    private static final String DEFAULT_BROKER_URL = "localhost:9092";
+    private static final String DEFAULT_ACKS = "1";
 
     private String appLabel;
     private String brokerUrl;
