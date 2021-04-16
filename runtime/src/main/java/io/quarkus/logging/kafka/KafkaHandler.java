@@ -32,6 +32,10 @@ import io.vertx.kafka.client.producer.KafkaProducerRecord;
 
 public class KafkaHandler extends Handler {
 
+    private static final String DEFAULT_STRING_SERIALIZER = "org.apache.kafka.common.serialization.StringSerializer";
+    public static final String DEFAULT_BROKER_URL = "localhost:9092";
+    public static final String DEFAULT_ACKS = "1";
+
     private String appLabel;
     private String brokerUrl;
     private String topicName;
@@ -44,14 +48,12 @@ public class KafkaHandler extends Handler {
 
     public KafkaHandler() {
         this.config = new HashMap<>();
-        config.put("bootstrap.servers", "localhost:9092");
-        config.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
-        config.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
+        config.put("bootstrap.servers", DEFAULT_BROKER_URL);
+        config.put("key.serializer", DEFAULT_STRING_SERIALIZER);
+        config.put("value.serializer", DEFAULT_STRING_SERIALIZER);
+        config.put("acks", DEFAULT_ACKS);
 
-        config.put("acks", "1");
-
-        Vertx vertx = Vertx.vertx();
-        this.producer = KafkaProducer.create(vertx, config);
+        this.producer = KafkaProducer.create(Vertx.vertx(), config);
     }
 
     @Override
