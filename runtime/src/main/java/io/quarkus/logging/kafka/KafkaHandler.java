@@ -120,7 +120,7 @@ public class KafkaHandler extends Handler {
     public void close() throws SecurityException {
     }
 
-    private String assemblePayload(String message, Map<String, String> tags, Throwable thrown) {
+    String assemblePayload(String message, Map<String, String> tags, Throwable thrown) {
         StringBuilder sb = new StringBuilder();
         sb.append("msg=[").append(message).append("]");
         if (thrown != null) {
