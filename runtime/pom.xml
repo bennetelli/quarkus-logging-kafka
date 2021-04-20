@@ -23,6 +23,11 @@
             <groupId>org.apache.kafka</groupId>
             <artifactId>kafka-clients</artifactId>
         </dependency>
+        <dependency>
+            <groupId>co.elastic.logging</groupId>
+            <artifactId>ecs-logging-core</artifactId>
+            <version>0.3.0</version>
+        </dependency>
 
         <dependency>
             <groupId>org.junit.jupiter</groupId>

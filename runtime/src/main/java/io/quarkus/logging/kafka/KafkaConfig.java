@@ -16,6 +16,7 @@
  */
 package io.quarkus.logging.kafka;
 
+import java.util.Map;
 import java.util.Optional;
 import java.util.logging.Level;
 
@@ -43,6 +44,34 @@ public class KafkaConfig {
      */
     @ConfigItem
     String topicName;
+
+    /**
+     * The service name to use. This is mandatory
+     * Becomes "service-name" in the configuration file
+     */
+    @ConfigItem(defaultValue = "default")
+    String serviceName;
+
+    /**
+     * Determine whether stack traces should be serialized as JSON array.
+     * Becomes "stack-trace-as-array" in the configuration file
+     */
+    @ConfigItem(defaultValue = "false")
+    boolean stackTraceAsArray;
+
+    /**
+     * Determine whether origins should be looked up, which may slow down the logging
+     * Becomes "include-origin" in the configuration file
+     */
+    @ConfigItem(defaultValue = "false")
+    boolean includeOrigin;
+
+    /**
+     * Any additional key value pairs you would like to index
+     * Becomes "additional-fields" in the configuration file
+     */
+    @ConfigItem
+    Map<String, String> additionalFields;
 
     /**
      *

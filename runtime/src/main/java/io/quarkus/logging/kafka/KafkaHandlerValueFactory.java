@@ -35,7 +35,7 @@ public class KafkaHandlerValueFactory {
             return new RuntimeValue<>(Optional.empty());
         }
 
-        KafkaHandler handler = new KafkaHandler();
+        KafkaHandler handler = new KafkaHandler(config);
         handler.setLevel(config.level);
         handler.setBrokerUrl(config.brokerUrl);
         handler.setTopicName(config.topicName);

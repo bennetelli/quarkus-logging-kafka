@@ -16,15 +16,10 @@
  */
 package io.quarkus.logging.kafka;
 
-import static java.util.stream.Collectors.joining;
-
-import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Handler;
 import java.util.logging.LogRecord;
-
-import org.jboss.logmanager.ExtLogRecord;
 
 import io.vertx.core.Vertx;
 import io.vertx.kafka.client.producer.KafkaProducer;
@@ -42,18 +37,20 @@ public class KafkaHandler extends Handler {
     private String keySerializer;
     private String valueSerializer;
 
-    private final Map<String, String> config;
-
     private final KafkaProducer<String, String> producer;
 
-    public KafkaHandler() {
-        this.config = new HashMap<>();
+    private final KafkaConfig kafkaConfig;
+
+    public KafkaHandler(KafkaConfig kafkaConfig) {
+        Map<String, String> config = new HashMap<>();
         config.put("bootstrap.servers", DEFAULT_BROKER_URL);
         config.put("key.serializer", DEFAULT_STRING_SERIALIZER);
         config.put("value.serializer", DEFAULT_STRING_SERIALIZER);
         config.put("acks", DEFAULT_ACKS);
 
         this.producer = KafkaProducer.create(Vertx.vertx(), config);
+
+        this.kafkaConfig = kafkaConfig;
     }
 
     @Override
@@ -63,54 +60,10 @@ public class KafkaHandler extends Handler {
             return;
         }
 
-        Map<String, String> tags = new HashMap<>();
+        ElasticCommonSchemaLogFormatter elasticCommonSchemaLogFormatter = new ElasticCommonSchemaLogFormatter(kafkaConfig);
+        String bodyECS = elasticCommonSchemaLogFormatter.format(record);
 
-        String host = record instanceof ExtLogRecord ? ((ExtLogRecord) record).getHostName() : null;
-        if (record.getLoggerName().equals("__AccessLog")) {
-            tags.put("type", "access");
-        }
-        if (host != null && !host.isEmpty()) {
-            tags.put("host", host);
-        }
-        if (appLabel != null && !appLabel.isEmpty()) {
-            tags.put("app", appLabel);
-        }
-
-        tags.put("level", record.getLevel().getName());
-
-        String msg;
-        if (record.getParameters() != null && record.getParameters().length > 0 && record instanceof ExtLogRecord) {
-            ExtLogRecord.FormatStyle formatStyle = ((ExtLogRecord) record).getFormatStyle();// == NO_FORMAT
-            if (formatStyle == ExtLogRecord.FormatStyle.PRINTF) {
-                msg = String.format(record.getMessage(), record.getParameters());
-            } else if (formatStyle == ExtLogRecord.FormatStyle.MESSAGE_FORMAT) {
-                msg = MessageFormat.format(record.getMessage(), record.getParameters());
-            } else {
-                msg = record.getMessage();
-            }
-        } else {
-            msg = record.getMessage();
-        }
-
-        if (record instanceof ExtLogRecord) {
-            String tid = ((ExtLogRecord) record).getMdc("traceId");
-            if (tid != null) {
-                tags.put("traceId", tid);
-            }
-        }
-
-        config.put("bootstrap.servers", brokerUrl);
-
-        if (keySerializer != null && !keySerializer.isEmpty()) {
-            config.put("key.serializer", keySerializer);
-        }
-
-        if (valueSerializer != null && !valueSerializer.isEmpty()) {
-            config.put("value.serializer", valueSerializer);
-        }
-
-        String body = assemblePayload(msg, tags, record.getThrown());
-        KafkaProducerRecord<String, String> records = KafkaProducerRecord.create(topicName, body);
+        KafkaProducerRecord<String, String> records = KafkaProducerRecord.create(topicName, bodyECS);
         producer.write(records);
     }
 
@@ -120,35 +73,6 @@ public class KafkaHandler extends Handler {
 
     @Override
     public void close() throws SecurityException {
-    }
-
-    String assemblePayload(String message, Map<String, String> tags, Throwable thrown) {
-        StringBuilder sb = new StringBuilder();
-        sb.append("msg=[").append(message).append("]");
-        if (thrown != null) {
-            sb.append(", stacktrace=[");
-            fillStackTrace(sb, thrown);
-            sb.append("]");
-        }
-        if (!tags.isEmpty()) {
-            sb.append(", tags=[");
-            String tagsAsString = tags.keySet().stream()
-                    .map(key -> key + "=" + tags.get(key))
-                    .collect(joining(", "));
-            sb.append(tagsAsString);
-            sb.append("]");
-        }
-        return sb.toString();
-    }
-
-    private void fillStackTrace(StringBuilder sb, Throwable thrown) {
-        for (StackTraceElement ste : thrown.getStackTrace()) {
-            sb.append("  ").append(ste.toString()).append("\n");
-        }
-        if (thrown.getCause() != null) {
-            sb.append("Caused by:");
-            fillStackTrace(sb, thrown.getCause());
-        }
     }
 
     void setAppLabel(String label) {
