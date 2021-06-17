@@ -56,7 +56,6 @@ public class KafkaHandler extends Handler {
             return;
         }
 
-        System.out.println("GETMESSAGE: " + record.getMessage());
         if (record.getMessage().equals("test warning")) {
             System.out.println("test warning kafka");
         }
