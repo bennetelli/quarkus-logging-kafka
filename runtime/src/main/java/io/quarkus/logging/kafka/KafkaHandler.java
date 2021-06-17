@@ -21,10 +21,6 @@ import java.util.Map;
 import java.util.logging.Handler;
 import java.util.logging.LogRecord;
 
-import io.vertx.core.Vertx;
-import io.vertx.kafka.client.producer.KafkaProducer;
-import io.vertx.kafka.client.producer.KafkaProducerRecord;
-
 public class KafkaHandler extends Handler {
 
     private static final String DEFAULT_STRING_SERIALIZER = "org.apache.kafka.common.serialization.StringSerializer";
@@ -37,7 +33,7 @@ public class KafkaHandler extends Handler {
     private String keySerializer;
     private String valueSerializer;
 
-    private final KafkaProducer<String, String> producer;
+    //    private final KafkaProducer<String, String> producer;
 
     private final KafkaConfig kafkaConfig;
 
@@ -48,7 +44,7 @@ public class KafkaHandler extends Handler {
         config.put("value.serializer", DEFAULT_STRING_SERIALIZER);
         config.put("acks", DEFAULT_ACKS);
 
-        this.producer = KafkaProducer.create(Vertx.vertx(), config);
+        //        this.producer = KafkaProducer.create(Vertx.vertx(), config);
 
         this.kafkaConfig = kafkaConfig;
     }
@@ -60,11 +56,15 @@ public class KafkaHandler extends Handler {
             return;
         }
 
-        ElasticCommonSchemaLogFormatter elasticCommonSchemaLogFormatter = new ElasticCommonSchemaLogFormatter(kafkaConfig);
-        String bodyECS = elasticCommonSchemaLogFormatter.format(record);
-
-        KafkaProducerRecord<String, String> records = KafkaProducerRecord.create(topicName, bodyECS);
-        producer.write(records);
+        System.out.println("GETMESSAGE: " + record.getMessage());
+        if (record.getMessage().equals("test warning")) {
+            System.out.println("test warning kafka");
+        }
+        //        ElasticCommonSchemaLogFormatter elasticCommonSchemaLogFormatter = new ElasticCommonSchemaLogFormatter(kafkaConfig);
+        //        String bodyECS = elasticCommonSchemaLogFormatter.format(record);
+        //
+        //        KafkaProducerRecord<String, String> records = KafkaProducerRecord.create(topicName, bodyECS);
+        //        producer.write(records);
     }
 
     @Override
